@@ -17,6 +17,7 @@ that ends in an IUCN Red List category. Released as an asset of
 | Best validation top-1 | 0.8482 at epoch 19 of 20 |
 | Trained | 2026-08-10 |
 | Licence | CC BY-NC 4.0 (see LICENSE-WEIGHTS) |
+| Archived at | [10.5281/zenodo.21894830](https://doi.org/10.5281/zenodo.21894830) (concept DOI, always latest) |
 
 ## Training configuration
 

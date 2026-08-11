@@ -1,5 +1,7 @@
 # bs2026-v6-artifacts
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21894830.svg)](https://doi.org/10.5281/zenodo.21894830)
+
 Reproducibility artifacts for the paper:
 
 > **IUCN Red List Threatened Bird Classification from Citizen-Science Images
@@ -45,10 +47,25 @@ regenerates `results/eval_v6_final.json` byte-for-byte.
 Model weights are **not** stored in the git tree because they exceed GitHub's
 100 MB per-file limit. They are attached to the release instead.
 
+## Archived version of record
+
+Everything here, **including the model weights**, is archived on Zenodo with a
+DOI. Cite the concept DOI, which always resolves to the latest version.
+
+| | DOI |
+|---|---|
+| Concept (always latest) | [10.5281/zenodo.21894830](https://doi.org/10.5281/zenodo.21894830) |
+| Version 1.0.1 (weights included) | [10.5281/zenodo.21894870](https://doi.org/10.5281/zenodo.21894870) |
+
+The Zenodo record is the durable copy. This git repository and its release
+assets are the working copy.
+
 ## Model weights
 
-Download `resnet50_ft_v6_best.pt` from the
-[latest release](https://github.com/focusnishikawa/bs2026-v6-artifacts/releases/latest).
+Download `resnet50_ft_v6_best.pt` from
+[Zenodo](https://doi.org/10.5281/zenodo.21894830) or from the
+[latest GitHub release](https://github.com/focusnishikawa/bs2026-v6-artifacts/releases/latest).
+Both are the same file; verify with the MD5 below.
 
 | Property | Value |
 |---|---|
@@ -158,6 +175,23 @@ everything needed to retrieve them from iNaturalist under their original terms.
 
 ## Citation
 
+For the artifacts:
+
+```bibtex
+@software{nishikawa2026artifacts,
+  author    = {Nishikawa, Takeshi},
+  title     = {bs2026-v6-artifacts: model weights, predictions and evaluation
+               code for IUCN Red List threatened bird classification from
+               citizen-science images},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.21894830},
+  url       = {https://doi.org/10.5281/zenodo.21894830}
+}
+```
+
+For the paper:
+
 ```bibtex
 @misc{nishikawa2026iucn,
   author = {Nishikawa, Takeshi},
@@ -165,7 +199,7 @@ everything needed to retrieve them from iNaturalist under their original terms.
             Images using Fine-Tuned CNN Features and a Hierarchical Lightweight
             Classifier},
   year   = {2026},
-  note   = {Artifacts: https://github.com/focusnishikawa/bs2026-v6-artifacts}
+  note   = {Artifacts: \url{https://doi.org/10.5281/zenodo.21894830}}
 }
 ```
 

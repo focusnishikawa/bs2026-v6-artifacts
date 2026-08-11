@@ -4,15 +4,16 @@
 # (run from the repository root; the release asset line is informational
 #  because the weights are not stored in the git tree)
 #
-# Release asset (download separately from the GitHub release):
+# Model weights, archived at https://doi.org/10.5281/zenodo.21894830
+# and attached to the GitHub release:
 #   2dd161c19b2808e33e30be9ab53f7f5d79ce399a576298cd565c9618c1348050  resnet50_ft_v6_best.pt  [101667110 bytes]
 #   MD5: 573d20215bfd92a2e6246b6b6e68eab1
 #
 43f186b1767fa62a8e8bc99d73910c3abe74f92ad39b343470b76f90f966b085  ./.gitignore
 e90b8a3422a2d66d571822b4d096e36e9fcc2c4deb9f605d3af00de241a987dc  ./LICENSE
 eba9547b02bbd8a0da163ce940442773c5fd8dd4a88b9d21828ed75aab389a8f  ./LICENSE-WEIGHTS
-53be50f4f09bb6fb1e1bc6b3e6d4b84f278b90389c0e98d47c2735b27bc33f48  ./MODEL_CARD.md
-dd48301505f607695fe9041d3887394fefe1e20f99f3911a2573d1db994010c4  ./README.md
+2774f5fae22efd4b995f39d4c5fe14aa8fc3082a24c5ac9b43c3ce07e8dab827  ./MODEL_CARD.md
+15c66884d8620494c26028bf9d455e415d313abf6190b3e8f1cf2aefbb69372c  ./README.md
 b4cde2942a8b7e6ab84c9257f8f426389c8cb1a0d928699593af5f879f17607f  ./RESULTS_v6_rebuild.md
 6fffe2d8c779dbc1a75a1afcb16111cf1f2ff01f7fe0e682498ee34d8b5093b6  ./configs/class_to_taxon_v5.json
 eae39c1a799f9a1e71c59e4fd1d77e0831fda339ccebbd88eae11f83fe35ac40  ./configs/resnet50_ft_v6_meta.json
