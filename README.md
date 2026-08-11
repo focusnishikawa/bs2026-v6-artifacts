@@ -36,6 +36,9 @@ regenerates `results/eval_v6_final.json` byte-for-byte.
 | `results/v6_40k_*.csv` | **Predictions behind the paper's numbers** (converged, 40,000-round models). |
 | `results/v6IN_flat_*.csv` | Predictions for the ImageNet-pretrained baseline (IN-Base). |
 | `results/v6_flat_*.csv`, `results/v6_hier_*.csv` | Predictions from the earlier 10,000-round run, kept for the convergence check in RESULTS section 4. |
+| `results/*_ds32.csv`, `results/*_ds128.csv` | Predictions for the controlled down-sampling study (RESULTS section 7): same models, ground truth reduced to 32x32 or 128x128 and enlarged back. |
+| `results/eval_v6_ds_{in,flat,hier}.json` | Evaluation output of that study, one file per arm (224 vs 128 vs 32). |
+| `scripts/run_v6_downsample.sh` | Job script for the down-sampling study: re-extracts ground-truth features at the reduced resolutions and re-runs inference. Retrains nothing. |
 | `results/eval_v6_final.json` | **The authoritative evaluation output.** |
 | `results/finetune_log.csv`, `results/rank_dist_v6.json` | Inputs for Figures 1 and 3. |
 | `manifests/gt_bird_840_manifest.csv` | Per-photograph attribution for the 840 bird evaluation images. |
@@ -115,6 +118,25 @@ python3 -c "import json;a=json.load(open('results/eval_v6_final.json'));b=json.l
 Retraining from scratch requires the image corpus and a GPU cluster; the job
 scripts in `scripts/` and section 6 of `RESULTS_v6_rebuild.md` document that path.
 
+The down-sampling study is reproduced the same way, one arm at a time, for
+example for the hierarchical arm:
+
+```bash
+python3 scripts/eval_v6.py \
+  --predictions "FT-Hier-224=results/v6_40k_hier_gt_bird.csv" \
+  --predictions "FT-Hier-128=results/v6_40k_hier_gt_bird_ds128.csv" \
+  --predictions "FT-Hier-32=results/v6_40k_hier_gt_bird_ds32.csv" \
+  --nonbird-predictions "FT-Hier-224=results/v6_40k_hier_gt_nonbird.csv" \
+  --nonbird-predictions "FT-Hier-128=results/v6_40k_hier_gt_nonbird_ds128.csv" \
+  --nonbird-predictions "FT-Hier-32=results/v6_40k_hier_gt_nonbird_ds32.csv" \
+  --class-to-taxon configs/class_to_taxon_v5.json \
+  --nonbird-manifest manifests/gt_nonbird_840_manifest.csv \
+  --output-json /tmp/eval_ds_hier.json
+```
+
+This regenerates `results/eval_v6_ds_hier.json`; substitute `v6_40k_flat_` or
+`v6IN_flat_` and the matching labels for the other two arms.
+
 ## Headline results
 
 All numbers are from `results/eval_v6_final.json`. Brackets are 95 percent
@@ -130,6 +152,35 @@ species-level cluster bootstrap intervals.
 | End-to-end IUCN accuracy (n=1,680) | 0.9369 | 0.9452 | **0.9506** [0.9257, 0.9726] |
 | Always-OTHERS trivial baseline | 0.9167 | 0.9167 | 0.9167 |
 | Protected-species alert recall | 0.250 | **0.325** | 0.250 |
+
+## Input-resolution study
+
+The deployed classifier receives a PTZ crop of only tens of pixels, so the same
+ground truth was reduced to 32x32 and 128x128 (bicubic down and back up) and the
+features re-extracted. **No model was retrained**: the backbone and every
+LightGBM stage are the ones above, so the columns differ only in input
+resolution. Full numbers are in section 7 of `RESULTS_v6_rebuild.md`.
+
+| Metric | IN-Base 224/128/32 | FT-Flat 224/128/32 | FT-Hier 224/128/32 |
+|---|---|---|---|
+| Stage 1 bird/non-bird | .973 / .966 / **.827** | .958 / .951 / **.626** | same as flat |
+| Stage 4 top-1 | .273 / .165 / .069 | .404 / .292 / .065 | .404 / .300 / .062 |
+| Stage 4 top-5 | .546 / .389 / .189 | .596 / .542 / .219 | .612 / .573 / .215 |
+| End-to-end IUCN | .937 / .927 / .912 | .945 / .939 / .919 | .951 / .934 / .919 |
+| Alert precision | .625 / .417 / **.125** | .765 / .714 / **.099** | .833 / .588 / **.101** |
+| Alert recall | .250 / .125 / (.575) | .325 / .250 / (.500) | .250 / .250 / (.450) |
+
+Three points are worth stating explicitly:
+
+- At 128x128 the cascade degrades but still works. The top-1 loss is significant
+  in every arm (Holm-adjusted p between 0.009 and 0.014); the top-5 loss is not
+  significant in the fine-tuned arms.
+- At 32x32 it fails. End-to-end accuracy of 0.919 is indistinguishable from the
+  always-OTHERS baseline of 0.9167.
+- **The alert recall that rises at 32x32 is not an improvement.** Precision
+  collapses from 0.765 to 0.099 (13 true / 4 false positives becomes 20 / 183):
+  the classifier is firing almost indiscriminately. Read the pair, never the
+  recall alone.
 
 ## What the evidence does and does not support
 

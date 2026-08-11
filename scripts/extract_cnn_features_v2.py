@@ -18,6 +18,8 @@ CLI:
   --target-nonbird INT         default: -1 (= len(bird))
   --seed INT                   default: 42
   --progress-every INT         default: 5000
+  --downsample-to INT          default: 0 (off; 0 reproduces the original
+                               pipeline byte-for-byte)
 """
 import argparse
 import csv
@@ -142,6 +144,13 @@ def main():
     ap.add_argument("--target-nonbird", type=int, default=-1)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--progress-every", type=int, default=5000)
+    ap.add_argument("--downsample-to", type=int, default=0,
+                    help="Controlled down-sampling: after the usual "
+                         "Resize(256)+CenterCrop(224), reduce the crop to "
+                         "S x S and enlarge it back to 224 x 224, so that the "
+                         "network sees an image carrying only S x S pixels of "
+                         "information. 0 disables it and reproduces the "
+                         "original pipeline exactly.")
     args = ap.parse_args()
 
     device = auto_device() if args.device == "auto" else args.device
@@ -154,13 +163,24 @@ def main():
     print(f"model: {args.model}  feature_dim: {dim}  "
           f"checkpoint: {ckpt or '(ImageNet pretrain)'}", file=sys.stderr)
 
-    transform = transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406],
-                             [0.229, 0.224, 0.225]),
-    ])
+    ops = [transforms.Resize(256), transforms.CenterCrop(224)]
+    if args.downsample_to > 0:
+        # Simulate the operational input: the detector hands the classifier a
+        # crop carrying only S x S pixels, which is then enlarged to the network
+        # input size. Both directions use bicubic resampling on the PIL image,
+        # so the reduction is anti-aliased rather than a naive decimation.
+        s = args.downsample_to
+        bicubic = transforms.InterpolationMode.BICUBIC
+        ops += [transforms.Resize((s, s), interpolation=bicubic),
+                transforms.Resize((224, 224), interpolation=bicubic)]
+        print(f"downsample: 224 -> {s} -> 224 (bicubic both ways)",
+              file=sys.stderr)
+    else:
+        print("downsample: off (native 224 crop)", file=sys.stderr)
+    ops += [transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406],
+                                 [0.229, 0.224, 0.225])]
+    transform = transforms.Compose(ops)
 
     with open(args.hierarchy_csv) as f:
         rows = list(csv.DictReader(f))
