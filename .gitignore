@@ -1,0 +1,13 @@
+# Model weights are distributed as release assets, not in the git tree
+# (GitHub rejects files over 100 MB).
+*.pt
+*.pth
+*.ckpt
+
+# LightGBM stage models are too large for the git tree.
+*.txt.gz
+models/
+
+.DS_Store
+__pycache__/
+*.pyc

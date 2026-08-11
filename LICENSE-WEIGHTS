@@ -1,0 +1,37 @@
+Licence for the released model weights
+======================================
+
+Applies to: resnet50_ft_v6_best.pt (and any other model checkpoint distributed
+as a release asset of this repository).
+
+Copyright (c) 2026 Takeshi Nishikawa, Foundation for Computational Science
+(FOCUS).
+
+These weights are licensed under the Creative Commons
+Attribution-NonCommercial 4.0 International licence (CC BY-NC 4.0).
+
+  Summary:    https://creativecommons.org/licenses/by-nc/4.0/
+  Legal code: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+You are free to share and adapt the weights for non-commercial purposes,
+provided you give appropriate credit, link to the licence, and indicate whether
+changes were made.
+
+Why non-commercial
+------------------
+The weights were trained on photographs from iNaturalist. Many of those
+photographs are licensed CC BY-NC by their contributors. The non-commercial
+condition is applied to the weights so that this repository does not offer terms
+more permissive than the material the model was derived from.
+
+Attribution for every training and evaluation photograph, including its
+individual licence, is recorded in the manifests under manifests/. The
+photographs themselves are not redistributed here and remain under their
+contributors' own terms.
+
+No warranty
+-----------
+The weights are provided as is, without warranty of any kind. See MODEL_CARD.md
+for known limitations, in particular the protected-species alert recall of 0.25
+to 0.33 and the degradation of bird/non-bird accuracy relative to the ImageNet
+baseline.
