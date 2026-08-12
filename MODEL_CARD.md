@@ -46,13 +46,13 @@ invocation is `scripts/run_v6_ft.sh`.
 | Label space | 895 = 894 bird label variants plus a non-bird label |
 | Source | iNaturalist, retrieved 2026-04. Per-photograph attribution in `manifests/train_inat_manifest.csv` |
 
-Note on the label count: an earlier version of this study reported 888 classes
-under a `partial_y` label allow-list of 427 entries. That allow-list was lost
-with the original cluster workspace and **could not be reconstructed**, so the
-whole pipeline was rebuilt on `full_y`, giving 895. The image count reproduced
-the previously reported figure exactly, and validation accuracy reproduced to
-within 0.001 (0.8482 against 0.8492), but the 888-class configuration itself is
-not reproducible from the surviving artifacts.
+Note on the label count: an earlier run of this pipeline used 888 classes under
+a `partial_y` label allow-list of 427 entries. That allow-list was lost with the
+original cluster workspace and **could not be reconstructed**, so the whole
+pipeline was rebuilt on `full_y`, giving 895. The rebuild reproduced the image
+count of that run exactly, and its validation accuracy to within 0.001 (0.8482
+against 0.8492), but the 888-class configuration itself is not reproducible from
+the surviving artifacts. Everything released here is the `full_y` rebuild.
 
 ## Intended use
 

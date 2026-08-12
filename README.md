@@ -190,12 +190,15 @@ These qualifications are part of the result, not caveats bolted on afterwards.
    to 0.4038 (+13.1 pt, cluster sign-flip test, Holm-corrected p = 0.015). The
    top-5 gain (+5.0 pt, p = 0.39) and the end-to-end IUCN accuracy (p = 0.83)
    are **not** significant.
-2. **Hierarchical refinement is not shown to be redundant.** An earlier version
-   of this study concluded it was, but that comparison used an unconverged
-   hierarchical arm. With both arms converged the sign reverses (-0.0385 to
-   **+0.0154**), and the pre-specified 5 pt non-inferiority and equivalence
-   tests both FAIL (95 percent CI [-0.054, +0.104]). The supportable statement
-   is that no difference was detected and equivalence was not established.
+2. **Hierarchical refinement is not shown to be redundant.** Convergence of the
+   hierarchical arm decides the sign of this comparison: run it unconverged and
+   the hierarchical arm looks worse (-0.0385), which would read as redundancy;
+   with both arms converged the sign reverses (**+0.0154**). Either way the
+   pre-specified 5 pt non-inferiority and equivalence tests both FAIL (95
+   percent CI [-0.054, +0.104]). The supportable statement is that no
+   difference was detected and equivalence was not established. Anyone
+   reproducing this comparison should confirm both arms have converged before
+   reading the sign.
 3. **Fine-tuning makes Stage 1 worse**, from 0.9726 to 0.9577, with non-bird
    rejection dropping from 0.9583 to 0.9274.
 4. **Protected-species alert recall is 0.25 to 0.33**, which is the limiting
