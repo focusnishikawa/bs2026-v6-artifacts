@@ -1,5 +1,9 @@
 # bs2026-v6-artifacts
 
+> **This repository is archived (read-only).** Its contents and full history were merged on 2026-11-04 into
+> [focusnishikawa/bs2026-project](https://github.com/focusnishikawa/bs2026-project) under `papers/bs2026-v6-artifacts/`.
+> The release assets and the Zenodo DOIs listed below remain valid and unchanged.
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21894830.svg)](https://doi.org/10.5281/zenodo.21894830)
 
 Reproducibility artifacts for the paper:
